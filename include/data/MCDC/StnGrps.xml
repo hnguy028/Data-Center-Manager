@@ -1,0 +1,22 @@
+<StnGrps>
+        <Grp>
+                <Nm>ACS_Stns</Nm>
+                <Enbld>True</Enbld>
+        </Grp>
+        <Grp>
+                <Nm>Rgnl_Stns</Nm>
+                <Enbld>True</Enbld>
+        </Grp>
+        <Grp>
+                <Nm>BKG_Stns</Nm>
+                <Enbld>True</Enbld>
+        </Grp>
+        <Grp>
+                <Nm>GSA_Stns</Nm>
+                <Enbld>True</Enbld>
+        </Grp>
+        <Grp>
+                <Nm>CDDIS_Stns</Nm>
+                <Enbld>True</Enbld>
+        </Grp>
+</StnGrps>

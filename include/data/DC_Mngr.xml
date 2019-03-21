@@ -1,0 +1,14 @@
+<DC_Mngr>
+        <DC>
+                <Nm>Booth_DC</Nm>
+                <Enbld>True</Enbld>
+        </DC>
+        <DC>
+                <Nm>APDC</Nm>
+                <Enbld>True</Enbld>
+        </DC>
+        <DC>
+                <Nm>MCDC</Nm>
+                <Enbld>True</Enbld>
+        </DC>
+</DC_Mngr>
