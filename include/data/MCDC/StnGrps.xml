@@ -13,10 +13,9 @@
         </Grp>
         <Grp>
                 <Nm>GSA_Stns</Nm>
-                <Enbld>True</Enbld>
         </Grp>
         <Grp>
                 <Nm>CDDIS_Stns</Nm>
-                <Enbld>True</Enbld>
+                <Enbld>False</Enbld>
         </Grp>
 </StnGrps>

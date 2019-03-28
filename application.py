@@ -5,9 +5,10 @@ import config as _global_
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+from CustomWidgets import *
 
 import xml.etree.ElementTree as ET
-
+import os
 
 class DCApplication:
 
@@ -35,12 +36,20 @@ class DCApplication:
 
         self.data_dict = {}
 
+        self.dp1 = None
+        self.dp2 = None
+        self.dp3 = None
+
+        self.layout.addWidget(self.add_drop_down())
+        self.dp1.set_dependent(self.dp2)
+        self.dp2.set_dependent(self.dp3)
+
     def load_configurations(self):
         # load information from xml files and pass along to compose to create ui objects
-        default_dc = self.load_selection(_global_.XML_DIRECTORY, 'DC_Mngr.xml')
+        # default_dc = self.load_selection(_global_.XML_DIRECTORY, 'DC_Mngr.xml')
 
-        default_stn = self.load_selection(_global_.XML_DIRECTORY + default_dc + '/', 'StnGrps.xml')
-
+        # default_stn = self.load_selection(_global_.XML_DIRECTORY + default_dc + '/', 'StnGrps.xml')
+        pass
 
     def load_selection(self, url, lvl_name):
         # load information from xml files and pass along to compose to create ui objects
@@ -69,30 +78,48 @@ class DCApplication:
         return self.app.exec_()
 
 
-def add_drop_down(item_list, func, title=None):
-    obj_frame = QFrame()
-    obj_frame.setMaximumSize(100, 70)
+    def add_drop_down(self, title=None):
+        obj_frame = QFrame()
+        obj_frame.setMaximumSize(100, 70)
 
-    layout = QVBoxLayout()
+        layout = QVBoxLayout()
 
-    if title is not None:
-        label = QLabel(title)
-        layout.addWidget(label)
+        if title is not None:
+            label = QLabel(title)
+            layout.addWidget(label)
 
-    dropdownlist = QComboBox()
+        # dropdownlist = QComboBox()
+        dropdownlist = DependentComboBox(_path=_global_.XML_DIRECTORY, _file_name='DC_Mngr.xml')
+        dropdownlist.update_selection()
+        print("asds")
 
-    for item in item_list:
-        dropdownlist.addItem(item)
-        # https://stackoverflow.com/questions/45820268/qcombobox-in-pyqt-how-could-i-set-the-options-in-one-combo-box-which-depends-on
-        # dropdownlist.addItem(name, data)
+        # for item in item_list:
+        #     dropdownlist.addItem(item)
+        #     # https://stackoverflow.com/questions/45820268/qcombobox-in-pyqt-how-could-i-set-the-options-in-one-combo-box-which-depends-on
+        #     # dropdownlist.addItem(name, data)
+        #
+        dropdownlist.setCurrentIndex(1)
+        # dropdownlist.currentTextChanged.connect(func)
 
-    dropdownlist.currentTextChanged.connect(func)
+        dropdownlist2 = DependentComboBox(_path=_global_.XML_DIRECTORY, _dir=dropdownlist.currentText(), _file_name='StnGrps.xml')
+        dropdownlist2.update_selection()
 
-    layout.addWidget(dropdownlist)
+        dropdownlist3 = DependentComboBox(_path=_global_.XML_DIRECTORY, _dir=os.path.join(dropdownlist.currentText(), dropdownlist2.currentText()),
+                                          _file_name='StnLst.xml')
+        dropdownlist3.update_selection()
 
-    obj_frame.setLayout(layout)
+        self.dp1 = dropdownlist
+        self.dp2 = dropdownlist2
+        self.dp3 = dropdownlist3
 
-    return obj_frame
+
+        layout.addWidget(dropdownlist)
+        layout.addWidget(dropdownlist2)
+        layout.addWidget(dropdownlist3)
+
+        obj_frame.setLayout(layout)
+
+        return obj_frame
 
 
 def action(item):

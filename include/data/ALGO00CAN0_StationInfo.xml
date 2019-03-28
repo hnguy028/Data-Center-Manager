@@ -1,0 +1,93 @@
+<?xml version="1.0" ?>
+<STATION>
+   <StaInfo>
+      <MonumentName>ALGO CACS-GSD</MonumentName>
+      <INSCRIPTION>883160</INSCRIPTION>
+      <TOWN>Algonquin Park</TOWN>
+      <PROV>ON</PROV>
+      <COUNTRY>Canada</COUNTRY>
+      <IERS_DOMES_NO>40104M002</IERS_DOMES_NO>
+      <x>918129.4000</x>
+      <y>-4346071.2000</y>
+      <z>4561977.8000</z>
+      <OBSERVABLE>L1L2C1C2P2P1S1S2</OBSERVABLE>
+      <INTVL>1.0</INTVL>
+      <AGENCY>NRCan/GEODETIC SURVEY OF CANADA</AGENCY>
+      <RTIGS_ID>107</RTIGS_ID>
+      <NRCAN_ID>ALGOR</NRCAN_ID>
+      <ANT_OFFSET_UP>0.1000</ANT_OFFSET_UP>
+      <ANT_OFFSET_N>0.0000</ANT_OFFSET_N>
+      <ANT_OFFSET_E>0.0000</ANT_OFFSET_E>
+      <PRESSURE_SENSOR_H/>
+      <CABLE_TYPE>LDF4-50A HELIAX</CABLE_TYPE>
+      <CABLE_LENGTH>100.0</CABLE_LENGTH>
+      <ANT_MODEL>AOAD/M_T</ANT_MODEL>
+      <ANT_SERIAL>303</ANT_SERIAL>
+      <ANT_RADOME>NONE</ANT_RADOME>
+      <ANT_REF_POINT>BPA</ANT_REF_POINT>
+      <RCV_MODEL>JAVAD TRE_G3TH DELTA</RCV_MODEL>
+      <RCV_SERIAL>01882</RCV_SERIAL>
+      <RCV_FIRMWARE>3.6.3 Jul,01,2015</RCV_FIRMWARE>
+      <RCV_SATSYS>GPS+GLO+GAL</RCV_SATSYS>
+      <RCV_ELEV_CUTOFF>5</RCV_ELEV_CUTOFF>
+      <RCV_TEMP_STAB>None</RCV_TEMP_STAB>
+      <SITE_IP_PUB>207.96.151.227</SITE_IP_PUB>
+      <SITE_IP_PRIV>192.168.1.35</SITE_IP_PRIV>
+      <SITE_SSH_PORT>22</SITE_SSH_PORT>
+      <GPS_IP_PUB>207.96.151.228</GPS_IP_PUB>
+      <GPS_IP_PRIV>192.168.1.37</GPS_IP_PRIV>
+      <GPS_RTCM_PORT>8011</GPS_RTCM_PORT>
+   </StaInfo>
+   <StaCoords>
+      <StnNm>ALGO00</StnNm>
+      <StnNmbr>107</StnNmbr>
+      <GPS_Indctr>1</GPS_Indctr>
+      <GLNS_Indctr>1</GLNS_Indctr>
+      <GLL_Indctr>1</GLL_Indctr>
+      <BDS_Indctr>0</BDS_Indctr>
+      <QZSS_Indctr>0</QZSS_Indctr>
+      <RfrncStnIndctr>1</RfrncStnIndctr>
+      <SnglRcvrOscltrIndctr>1</SnglRcvrOscltrIndctr>
+      <CrdntUnts>Metres</CrdntUnts>
+      <ITRF_RlztnEpch>2018</ITRF_RlztnEpch>
+      <NATRF_RlztnEpch>2010</NATRF_RlztnEpch>
+      <ITRF_Frame>ITRF2014</ITRF_Frame>
+      <ITRF_RefDate>2018-01-01</ITRF_RefDate>
+      <ITRF_RefEpoch>2018.0</ITRF_RefEpoch>
+      <NATRF_Frame>NAD83CSRS</NATRF_Frame>
+      <NATRF_RefDate>2010-01-01</NATRF_RefDate>
+      <NATRF_RefEpoch>2010.0</NATRF_RefEpoch>
+      <ITRF_MrkCrtsnX>918129.1680</ITRF_MrkCrtsnX>
+      <ITRF_MrkCrtsnY>-4346071.3170</ITRF_MrkCrtsnY>
+      <ITRF_MrkCrtsnZ>4561977.9060</ITRF_MrkCrtsnZ>
+      <ITRF_ARPCrtsnX>918129.1820</ITRF_ARPCrtsnX>
+      <ITRF_ARPCrtsnY>-4346071.3850</ITRF_ARPCrtsnY>
+      <ITRF_ARPCrtsnZ>4561977.9780</ITRF_ARPCrtsnZ>
+      <ITRF_MrkCrtsnY>-4346071.3170</ITRF_MrkCrtsnY>
+      <ITRF_MrkCrtsnZ>4561977.9060</ITRF_MrkCrtsnZ>
+      <ITRF_ARPCrtsnX>918129.1820</ITRF_ARPCrtsnX>
+      <ITRF_ARPCrtsnY>-4346071.3850</ITRF_ARPCrtsnY>
+      <ITRF_ARPCrtsnZ>4561977.9780</ITRF_ARPCrtsnZ>
+      <ITRF_MrkGeoLat>45.95580063</ITRF_MrkGeoLat>
+      <ITRF_MrkGeoLon>-78.07137084</ITRF_MrkGeoLon>
+      <ITRF_MrkGeoHeight>200.9520</ITRF_MrkGeoHeight>
+      <ITRF_ARPGeoLat>45.95580063</ITRF_ARPGeoLat>
+      <ITRF_ARPGeoLon>-78.07137084</ITRF_ARPGeoLon>
+      <ITRF_ARPGeoHeight>201.0520</ITRF_ARPGeoHeight>
+      <NATRF_MrkCrtsnX>918129.3290</NATRF_MrkCrtsnX>
+      <NATRF_MrkCrtsnY>-4346071.2790</NATRF_MrkCrtsnY>
+      <NATRF_MrkCrtsnZ>4561977.8550</NATRF_MrkCrtsnZ>
+      <NATRF_ARPCrtsnX>918129.3430</NATRF_ARPCrtsnX>
+      <NATRF_ARPCrtsnY>-4346071.3470</NATRF_ARPCrtsnY>
+      <NATRF_ARPCrtsnZ>4561977.9270</NATRF_ARPCrtsnZ>
+      <NATRF_MrkGeoLat>45.95580034</NATRF_MrkGeoLat>
+      <NATRF_MrkGeoLon>-78.07136870</NATRF_MrkGeoLon>
+      <NATRF_MrkGeoHeight>200.9120</NATRF_MrkGeoHeight>
+      <NATRF_ARPGeoLat>45.95580034</NATRF_ARPGeoLat>
+      <NATRF_ARPGeoLon>-78.07136870</NATRF_ARPGeoLon>
+      <NATRF_ARPGeoHeight>201.0120</NATRF_ARPGeoHeight>
+      <ARP_UpOffst>0.1000</ARP_UpOffst>
+      <ARP_NrthngOffst>0.0000</ARP_NrthngOffst>
+      <ARP_EstngOffst>0.0000</ARP_EstngOffst>
+   </StaCoords>
+</STATION>
