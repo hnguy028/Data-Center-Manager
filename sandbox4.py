@@ -1,3 +1,8 @@
+##
+#   Tree Widget Demo - implemented in a window, with logic determined editable columns
+#
+##
+
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *

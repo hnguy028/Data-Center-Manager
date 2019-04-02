@@ -28,7 +28,7 @@
         </RINEX3_QC>
         <DtArchvl>
                 <Qrntn>False</Qrntn>
-                <Pblc>True</Pblc>
+                <Pblc>Here_we_are</Pblc>
                 <ArchvlDC>
                         <ArchvlDC_Nm>CDDIS</ArchvlDC_Nm>
                         <ArchvlDC_Enbld>True</ArchvlDC_Enbld>

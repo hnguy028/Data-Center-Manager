@@ -1,3 +1,7 @@
+##
+#   Tree Widget Demo - with conditional column input on leaf nodes
+##
+
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 import sys
@@ -5,6 +9,7 @@ import sys
 
 def main():
     app     = QApplication (sys.argv)
+    app.setStyle(QStyleFactory.create("Fusion"))
     tree    = QTreeWidget ()
     item    = QTreeWidgetItem()
 
@@ -34,6 +39,7 @@ def main():
                     child.setText(i, "Any Notes?")
                     child.setFlags(child.flags() | Qt.ItemIsEditable)
 
+    tree.expandToDepth(0)
     tree.show()
     sys.exit(app.exec_())
 

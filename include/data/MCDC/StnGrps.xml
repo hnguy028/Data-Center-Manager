@@ -13,6 +13,7 @@
         </Grp>
         <Grp>
                 <Nm>GSA_Stns</Nm>
+                <Enbld>False</Enbld>
         </Grp>
         <Grp>
                 <Nm>CDDIS_Stns</Nm>
