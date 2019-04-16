@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>279</width>
-    <height>177</height>
+    <width>457</width>
+    <height>294</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,23 +15,28 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout_4">
-    <item>
-     <spacer name="horizontalSpacer_3">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>2</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
+    <property name="spacing">
+     <number>6</number>
+    </property>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <property name="spacing">
+         <number>25</number>
+        </property>
+        <property name="leftMargin">
+         <number>10</number>
+        </property>
+        <property name="topMargin">
+         <number>5</number>
+        </property>
+        <property name="rightMargin">
+         <number>10</number>
+        </property>
+        <property name="bottomMargin">
+         <number>2</number>
+        </property>
         <item>
          <widget class="DependentComboBox" name="cbx_dcs_1"/>
         </item>
@@ -44,7 +49,58 @@
        </layout>
       </item>
       <item>
+       <layout class="QGridLayout" name="gridLayout">
+        <property name="leftMargin">
+         <number>5</number>
+        </property>
+        <property name="topMargin">
+         <number>5</number>
+        </property>
+        <property name="rightMargin">
+         <number>5</number>
+        </property>
+        <property name="bottomMargin">
+         <number>5</number>
+        </property>
+        <item row="0" column="1">
+         <widget class="ProcessListView" name="process_list_view"/>
+        </item>
+        <item row="0" column="0">
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>10</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="2">
+         <spacer name="horizontalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>10</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>10</number>
+        </property>
         <item>
          <spacer name="horizontalSpacer">
           <property name="orientation">
@@ -57,6 +113,13 @@
            </size>
           </property>
          </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_dcs_gen">
+          <property name="text">
+           <string>Generate</string>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QPushButton" name="btn_dcs">
@@ -82,19 +145,6 @@
       </item>
      </layout>
     </item>
-    <item>
-     <spacer name="horizontalSpacer_4">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>2</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -102,16 +152,33 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>279</width>
+     <width>457</width>
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionAdd_DC_Station"/>
+   </widget>
+   <addaction name="menuFile"/>
   </widget>
+  <action name="actionAdd_DC_Station">
+   <property name="text">
+    <string>Add DC/Station</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
    <class>DependentComboBox</class>
    <extends>QComboBox</extends>
+   <header>CustomWidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>ProcessListView</class>
+   <extends>QListWidget</extends>
    <header>CustomWidgets</header>
   </customwidget>
  </customwidgets>

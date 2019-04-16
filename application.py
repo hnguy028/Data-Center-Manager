@@ -18,6 +18,3 @@ class DCApplication:
 
     def exec(self):
         return self.app.exec_()
-
-def action(item):
-    print("We have selected item: " + str(item))

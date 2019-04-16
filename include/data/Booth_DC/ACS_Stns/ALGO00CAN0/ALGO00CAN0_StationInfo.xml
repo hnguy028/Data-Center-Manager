@@ -1,6 +1,6 @@
 <STATION>
    <StaInfo>
-      <MonumentName>test</MonumentName>
+      <MonumentName>ALGO CACS-GSD</MonumentName>
       <INSCRIPTION>883160</INSCRIPTION>
       <TOWN>Algonquin Park</TOWN>
       <PROV>ON</PROV>
@@ -17,7 +17,7 @@
       <ANT_OFFSET_UP>0.1000</ANT_OFFSET_UP>
       <ANT_OFFSET_N>0.0000</ANT_OFFSET_N>
       <ANT_OFFSET_E>0.0000</ANT_OFFSET_E>
-      <PRESSURE_SENSOR_H />
+      <PRESSURE_SENSOR_H/>
       <CABLE_TYPE>LDF4-50A HELIAX</CABLE_TYPE>
       <CABLE_LENGTH>100.0</CABLE_LENGTH>
       <ANT_MODEL>AOAD/M_T</ANT_MODEL>

@@ -3,25 +3,25 @@
         <Stn_R_Sync>True</Stn_R_Sync>
         <RTCM-MSM_2_RTCM3>True</RTCM-MSM_2_RTCM3>
         <RINEX2>
-                <Enbld>True</Enbld>
-                <_15M_HR>True</_15M_HR>
-                <_1H_30S>True</_1H_30S>
-                <Dly30S>True</Dly30S>
+                <Enbld>False</Enbld>
+                <_15M_HR>False</_15M_HR>
+                <_1H_30S>False</_1H_30S>
+                <Dly30S>False</Dly30S>
         </RINEX2>
         <RINEX3>
-                <Enbld>True</Enbld>
+                <Enbld>False</Enbld>
                 <_15M_HR>True</_15M_HR>
                 <_1H_30S>True</_1H_30S>
                 <Dly30S>True</Dly30S>
         </RINEX3>
         <RINEX2_QC>
-                <Enbld>True</Enbld>
+                <Enbld>False</Enbld>
                 <_15M_HR>True</_15M_HR>
                 <_1H_30S>True</_1H_30S>
                 <Dly30S>True</Dly30S>
         </RINEX2_QC>
         <RINEX3_QC>
-                <Enbld>True</Enbld>
+                <Enbld>False</Enbld>
                 <_15M_HR>True</_15M_HR>
                 <_1H_30S>True</_1H_30S>
                 <Dly30S>True</Dly30S>

@@ -1,5 +1,14 @@
 <StnLst>
-        <Stn>ALGO00CAN0</Stn>
-        <Stn>NRC100CAN0</Stn>
-        <Stn>STJO00CAN0</Stn>
+        <Stn>
+        	<Nm>ALGO00CAN0</Nm>
+        	<Enbld>True</Enbld>
+        </Stn>
+        <Stn>
+        	<Nm>NRC100CAN0</Nm>
+        	<Enbld>True</Enbld>
+        </Stn>
+        <Stn>
+        	<Nm>STJO00CAN0</Nm>
+        	<Enbld>True</Enbld>
+        </Stn>
 </StnLst>

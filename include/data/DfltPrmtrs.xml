@@ -1,6 +1,6 @@
 <DfltPrmtrs>
-        <ArchvRTCM_DtPth></ArchvRTCM_DtPth>
-        <ArchvRTCM_LgPth></ArchvRTCM_LgPth>
+        <ArchvRTCM_DtPth>ArchvRTCM_DtPth</ArchvRTCM_DtPth>
+        <ArchvRTCM_LgPth>ArchvRTCM_LgPth</ArchvRTCM_LgPth>
 
         <RINEX2_DtOtPth></RINEX2_DtOtPth>
         <RINEX2_LgPth></RINEX2_LgPth>
@@ -8,13 +8,13 @@
         <RINEX3_DtOtPth></RINEX3_DtOtPth>
         <RINEX3_LgPth></RINEX3_LgPth>
 
-        <BoothDC_MSM_Prt>26000</BoothDC_MSM_Prt>
+        <Booth_DC_MSM_Prt>26000</Booth_DC_MSM_Prt>
         <APDC_MSM_Prt>27000</APDC_MSM_Prt>
         <MCDC_MSM_Prt>28000</MCDC_MSM_Prt>
-        <BoothDC_RTCM3_Prt>16000</BoothDC_RTCM3_Prt>
+        <Booth_DC_RTCM3_Prt>16000</Booth_DC_RTCM3_Prt>
         <APDC_RTCM3_Prt>17000</APDC_RTCM3_Prt>
         <MCDC_RTCM3_Prt>18000</MCDC_RTCM3_Prt>
-        <BoothDC_Mltcst_IP>224.2.10.100</BoothDC_Mltcst_IP>
+        <Booth_DC_Mltcst_IP>224.2.10.100</Booth_DC_Mltcst_IP>
         <APDC_Mltcst_IP>224.2.10.101</APDC_Mltcst_IP>
         <MCDC_Mltcst_IP>224.2.10.102</MCDC_Mltcst_IP>
 

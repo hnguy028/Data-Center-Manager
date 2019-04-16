@@ -11,4 +11,4 @@
         	<Nm>STJO00CAN0</Nm>
         	<Enbld>True</Enbld>
         </Stn>
-</StnLst>
+<Stn><Nm>STA000CAN0</Nm><Enbld>True</Enbld></Stn></StnLst>

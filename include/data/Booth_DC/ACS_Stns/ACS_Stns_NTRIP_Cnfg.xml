@@ -1,0 +1,11 @@
+<NTRIP_Cfg>
+        <IP>XXX.XXX.XXX.XXX</IP>
+        <PrtNmbr>2101</PrtNmbr>
+        <Prtcl>TCP</Prtcl>
+        <IDNmbr>500</IDNmbr>
+        <NTRIPEnbldFlg>True</NTRIPEnbldFlg>
+        <NTRIPPswd>eh9y2k</NTRIPPswd>
+        <NTRIPUsrNm>NRCanACS</NTRIPUsrNm>
+        <FQDN></FQDN>
+        <NTRIPVrsn>1</NTRIPVrsn>
+</NTRIP_Cfg>

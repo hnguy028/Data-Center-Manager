@@ -6,44 +6,73 @@ from PyQt5.QtWidgets import *
 import sys
 from CustomWidgets import *
 import xml.etree.ElementTree as ET
+import config as _global_
 
 
 def test():
     tree = ET.parse("C:/Users/hinguyen/Git/DC_Manager/include/data/PrcssLst.xml")
     root = tree.getroot()
 
-    result_list = []
+    li = [
+        (["Archvr"], "Testing"),
+        (["RINEX2", "Dly30S"], "Nothing"),
+        (["DtArchvl", "ArchvlDC", "RINEX2", "_15M_HR"], "skdjfhasdlkfhasdl")
+    ]
+    #
+    update_xml(root, li)
+    tree.write("C:/Users/hinguyen/Git/DC_Manager/include/data/PrcssLst2.xml")
+    # s = root.findall('RINEX2')[0]
+    # s[0].text = "True"
+    # tree.write("C:/Users/hinguyen/Git/DC_Manager/include/data/PrcssLst.xml")
+    # for node in s:
+    #     print(node.text)
 
-    l = list(root)
-    i = l[3]
-    t = list(i)
-    if "test" in t[0].attrib and t[0].attrib["test"] == True:
-        print("sdffs")
-    # print("test" in t[0].attrib)
-
-    # for child in root:
-    #     if child.find('Enbld').text.lower() in ["false", "f"]:
-    #         print("asd")
-        # if child.find('Enbld').text.lower() in ["true", "t"]:
-        #     result_list.append(child.find('Nm').text)
+    # for i in root:
+    #     if len(i) > 0:
+    #         # print(i.tag)
+    #         for j in i.findall('Enbld'):
+    #             print(i.tag, " - ", j.text)
+    x = root.findall("testing")
+    print(x)
 
 
 def callMethod(method):
     method
 
 
+#
+def update_xml(root, data):
+    for inst in data:
+        xml_path, val = inst
+        update_xml_rec(val, root, xml_path)
+
+
+#
+def update_xml_rec(val, node, tags):
+    tag = tags.pop(0)
+
+    if len(tags) > 0:
+        update_xml_rec(val, node.findall(tag)[0], tags)
+    else:
+        node.findall(tag)[0].text = val
+
+
 def test2():
     app = QApplication(sys.argv)
     tree = XmlTreeWidget()
     # tree.set_default(_path="C:/Users/hinguyen/Git/DC_Manager/include/data", _file_name="PrcssLst.xml")
-    tree1 = ET.parse("C:/Users/hinguyen/Git/DC_Manager/include/data/ALGO00CAN0_StationInfo.xml")
+    tree1 = ET.parse("C:/Users/hinguyen/Git/DC_Manager/include/data/StnLst.xml")
     root1 = tree1.getroot()
-    tree.load(root1)
-    tree.show()
-    sys.exit(app.exec())
+    print('ALGO00CAN0' in [i.text for i in root1.findall("Stn/Nm")])
+
+
+def test3():
+    # getattr(_global_, self.dc + '_Mltcst_IP')
+    t = getattr(_global_, 'ROOT_DIRECTORY')
+    print(t)
 
 
 if __name__ == "__main__":
     print("Dev Testing")
     test2()
-    # test()
+    # test3()

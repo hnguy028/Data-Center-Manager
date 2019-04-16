@@ -1,6 +1,7 @@
 <STATION>
+   <RTCMRdrLgFlPth>t/ALGO00CAN0/</RTCMRdrLgFlPth>
    <StaInfo>
-      <MonumentName>test</MonumentName>
+      <MonumentName>ALGO CACS-GSD</MonumentName>
       <INSCRIPTION>883160</INSCRIPTION>
       <TOWN>Algonquin Park</TOWN>
       <PROV>ON</PROV>

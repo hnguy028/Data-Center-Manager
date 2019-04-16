@@ -1,0 +1,67 @@
+<RTCMRdrCnfg>
+	<RTCMRdrUI>False</RTCMRdrUI>
+	<RTCMRdrDbg_Lvl>1</RTCMRdrDbg_Lvl>
+	<RTCMRdrLgFlPth>/data1/RTCM/log/ALGO00/</RTCMRdrLgFlPth>
+	<RTCMRdrLgFlPrdScnds>86400</RTCMRdrLgFlPrdScnds>
+	<RTCMRdrLgFlStnNm>ALGO</RTCMRdrLgFlStnNm>
+	<RTCMRdrLgFlCntryCd>CAN</RTCMRdrLgFlCntryCd>
+	<RTCMRdrLgFlStnMnmntNmbr>0</RTCMRdrLgFlStnMnmntNmbr>
+	<RTCMRdrLgFlMnmntRcvrNmbr>0</RTCMRdrLgFlMnmntRcvrNmbr>
+	<RTCMRdrCmptrTmRfrnc>GPS</RTCMRdrCmptrTmRfrnc>
+	<RTCMRdrUsr>500</RTCMRdrUsr>
+	<RTCMRdrGrp>500</RTCMRdrGrp>
+	<RTCMRdrStnNmbr>O00</RTCMRdrStnNmbr>
+	<RTCMDataInSrc>
+		<RTCMObsInIPPswd>
+			<IPEnbldFlg>True</IPEnbldFlg>
+			<IP>XXX.XXX.XXX.XXX</IP>
+			<PrtNmbr>2101</PrtNmbr>
+			<Prtcl>TCP</Prtcl>
+			<IDNmbr>500</IDNmbr>
+			<FQDN />
+			<NTRIPEnbldFlg>True</NTRIPEnbldFlg>
+			<NTRIPPswd>eh9y2k</NTRIPPswd>
+			<NTRIPUsrNm>NRCanACS</NTRIPUsrNm>
+			<NTRIPMntPnt>ALGO00</NTRIPMntPnt>
+			<NTRIPURL />
+		</RTCMObsInIPPswd>
+	</RTCMDataInSrc>
+
+	<RTCMPrcsLst>
+		<PrcsArchvRTCM>True</PrcsArchvRTCM>
+		<PrcsFlgs>
+			<ReadRTCMObs_Flg>True</ReadRTCMObs_Flg>
+			<WriteRTCMToFileFlag>True</WriteRTCMToFileFlag>
+			<WriteRTCMToMULTISOCFlag>True</WriteRTCMToMULTISOCFlag>
+			<BrdcstGPS_Flg>True</BrdcstGPS_Flg>
+			<BrdcstGLNS_Flg>True</BrdcstGLNS_Flg>
+			<BrdcstGAL_Flg>True</BrdcstGAL_Flg>
+			<BrdcstQZSS_Flg>True</BrdcstQZSS_Flg>
+			<BrdcstBDU_Flg>True</BrdcstBDU_Flg>
+		</PrcsFlgs>
+	</RTCMPrcsLst>
+
+	<RTCMOutDstn>
+		<RTCMOutDataPth>/data1/RTCM/data/rtcm/ALGO00/</RTCMOutDataPth>
+		<RTCMOutDataFlNmCnvntn>STD</RTCMOutDataFlNmCnvntn>
+		<RTCMObsOutIPPswd>
+			<IPEnbldFlg>True</IPEnbldFlg>
+			<IP>224.2.10.100</IP>
+			<PrtNmbr>16000</PrtNmbr>
+			<Prtcl>UDP</Prtcl>
+			<IDNmbr>500</IDNmbr>
+		</RTCMObsOutIPPswd>
+		<RTCMObsOutFlNm>
+			
+			
+			
+			
+			<DataSrc>R</DataSrc>
+			<Mnt>00</Mnt>
+			<FlPrd>15M</FlPrd>
+			<DataFrq>01S</DataFrq>
+			<DataFrmt>rtcm</DataFrmt>
+			<DataTyp>MO</DataTyp>
+		</RTCMObsOutFlNm>
+	</RTCMOutDstn>
+</RTCMRdrCnfg>
