@@ -1,5 +1,5 @@
 <PrcssLst>
-        <Archvr>False</Archvr>
+        <Archvr>True</Archvr>
         <Stn_R_Sync>True</Stn_R_Sync>
         <RTCM-MSM_2_RTCM3>True</RTCM-MSM_2_RTCM3>
         <RINEX2>

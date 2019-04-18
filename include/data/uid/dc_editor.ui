@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <widget class="QTreeWidget" name="treeWidget">
+    <widget class="StationsTreeWidget" name="treeWidget">
      <column>
       <property name="text">
        <string>Data Center</string>
@@ -280,6 +280,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>StationsTreeWidget</class>
+   <extends>QTreeWidget</extends>
+   <header>CustomWidgets</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

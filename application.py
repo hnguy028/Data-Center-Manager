@@ -1,7 +1,6 @@
 ##
-#   application.py
+#   application.py - Main Qt Application, top level reference to the window
 ##
-import config as _global_
 
 from PyQt5.QtWidgets import *
 from CustomWidgets import *

@@ -4,7 +4,7 @@
 import config as _global_
 import os, shutil
 import xml.etree.ElementTree as ET
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 
 
 class FileManager:
@@ -19,7 +19,8 @@ class FileManager:
                       'dc_path': os.path.join(path, dc),
                       'dc_group_path': os.path.join(path, dc, dc_group),
                       'station_path': os.path.join(path, dc, dc_group, station_name)}
-        pass
+
+        self.overwrite_flag = True
 
     @abstractmethod
     def configure_default(self):
@@ -29,6 +30,9 @@ class FileManager:
         return self.file_path
 
 
+##
+#   DirectoryManager - Handles modification of directory structure (add/rm stations, groups and/or data centers)
+##
 class DirectoryFM(FileManager):
     
     def __init__(self, path, dc, dc_group, station_name):
@@ -42,22 +46,55 @@ class DirectoryFM(FileManager):
     def add_data_center(self):
         pass
 
-    def add_station_group(self):
-        pass
+    def add_station_group(self, group_name, station_names, enabled=True, path=None):
+        # add to StnGrps.xml
+        stn_grps_filename = os.path.join(path if path is not None else self.paths['dc_path'], _global_.STN_GRPS)
+        grp_tree = ET.parse(stn_grps_filename)
+        grp_root = grp_tree.getroot()
+
+        # check if group already exists
+        # todo : if group already exists then batch add new stations
+        if os.path.exists(os.path.join(self.paths['dc_path'], group_name)) or group_name in [i.text for i in grp_root.findall("Grp/Nm")]:
+            return
+
+        # otherwise create directory and add stations to group
+        dc_group_path = os.path.join(self.paths['dc_path'], group_name)
+        os.mkdir(dc_group_path)
+
+        # add group to StnGrps.xml
+        grp_node = ET.SubElement(grp_root, 'Grp')
+
+        nm_node = ET.SubElement(grp_node, 'Nm')
+        nm_node.text = group_name
+
+        enbld_node = ET.SubElement(grp_node, 'Enbld')
+        enbld_node.text = str(enabled)
+
+        # write to xml
+        grp_tree.write(stn_grps_filename)
+
+        # add/create required xml files
+        shutil.copyfile(os.path.join(_global_.TEMPLATE_DIRECTORY, _global_.STN_LST),
+                        os.path.join(dc_group_path, _global_.STN_LST))
+
+        # add stations
+        for station in station_names:
+            self.add_station(station, enabled=enabled, path=dc_group_path)
 
     #
-    def add_station(self, station_name, enabled=True):
-        # load StnGrps.xml
-        stn_lst = os.path.join(self.paths['dc_group_path'], _global_.STN_LST)
-        tree = ET.parse(stn_lst)
+    def add_station(self, station_name, enabled=True, path=None):
+        # load StnLst.xml
+        dc_group_path = path if path is not None else self.paths['dc_group_path']
+        stn_lst_filename = os.path.join(dc_group_path, _global_.STN_LST)
+        tree = ET.parse(stn_lst_filename)
         root = tree.getroot()
 
         # check if the station already exists (directory and xml instance)
-        if os.path.exists(os.path.join(self.paths['dc_group_path'], station_name)) or station_name.upper() in [i.text for i in root.findall("Stn/Nm")]:
+        if os.path.exists(os.path.join(dc_group_path, station_name)) or station_name.upper() in [i.text for i in root.findall("Stn/Nm")]:
             return
 
         # create station directory
-        os.mkdir(os.path.join(self.paths['dc_group_path'], station_name))
+        os.mkdir(os.path.join(dc_group_path, station_name))
 
         # add station to StnLst.xml
         stn_node = ET.SubElement(root, 'Stn')
@@ -68,7 +105,7 @@ class DirectoryFM(FileManager):
         enbld_node = ET.SubElement(stn_node, 'Enbld')
         enbld_node.text = str(enabled)
 
-        tree.write(stn_lst)
+        tree.write(stn_lst_filename)
 
         # add/create stationInfo.xml and processList.xml
 
@@ -80,12 +117,16 @@ class ArchvrFM(FileManager):
     def __init__(self, path, dc, dc_group, station_name):
         super(ArchvrFM, self).__init__(path, dc, dc_group, station_name)
 
-        # copy from stub
+        # copy from template folder
         self.file_name = os.path.join(self.paths['station_path'], self.station_nm[:6] + "_NTRIPRTCM2File_Config.xml")
-        if not os.path.isfile(self.file_name):
+        if os.path.isfile(self.file_name) and not self.overwrite_flag:
+            # already exists and we do not want to overwrite
+            return
+        else:
             shutil.copyfile(os.path.join(_global_.TEMPLATE_DIRECTORY, _global_.ARCHVR_FILE_NAME),
                             self.file_name)
 
+        # load reference to xml
         self.xml_tree = ET.parse(self.file_name)
         self.xml_root = self.xml_tree.getroot()
 
@@ -94,11 +135,12 @@ class ArchvrFM(FileManager):
         self.dfltprmtrs_xml_tree = ET.parse(self.dfltprmtrs_xml)
         self.dfltprmtrs_xml_root = self.dfltprmtrs_xml_tree.getroot()
 
-        # load from main config file DfltPrmtrs.xml
+        # load from main config file [STA]_Stns_NTRIP_Cnfg.xml
         self.ntrip_config_xml = os.path.join(self.paths['dc_group_path'], self.dc_group + "_NTRIP_Cnfg.xml")
         self.ntrip_xml_tree = ET.parse(self.ntrip_config_xml)
         self.ntrip_xml_root = self.ntrip_xml_tree.getroot()
 
+        # fill in values
         self.configure_default()
 
         # write to xml

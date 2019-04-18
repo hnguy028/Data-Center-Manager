@@ -21,17 +21,7 @@ def test():
     #
     update_xml(root, li)
     tree.write("C:/Users/hinguyen/Git/DC_Manager/include/data/PrcssLst2.xml")
-    # s = root.findall('RINEX2')[0]
-    # s[0].text = "True"
-    # tree.write("C:/Users/hinguyen/Git/DC_Manager/include/data/PrcssLst.xml")
-    # for node in s:
-    #     print(node.text)
 
-    # for i in root:
-    #     if len(i) > 0:
-    #         # print(i.tag)
-    #         for j in i.findall('Enbld'):
-    #             print(i.tag, " - ", j.text)
     x = root.findall("testing")
     print(x)
 

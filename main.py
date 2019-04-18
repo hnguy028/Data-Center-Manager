@@ -1,5 +1,5 @@
 ##
-#   main.py
+#   main.py - Main script to DC_Manager
 ##
 
 from application import *

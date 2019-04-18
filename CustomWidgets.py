@@ -1,3 +1,6 @@
+##
+#   CustomWidget.py - Package for custom gui objects
+##
 import config as _global_
 import sys
 from PyQt5.QtCore import Qt
@@ -6,9 +9,12 @@ from PyQt5 import QtWidgets, uic
 from FileManager import *
 
 
+# Top Level Window
 class DCMainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super(DCMainWindow, self).__init__()
+
+        # reference to gui object on the main window
         self.uic = uic.loadUi(_global_.UI_DIRECTORY + _global_.DC_SELECTION, self)
         self.show()
 
@@ -31,7 +37,7 @@ class DCMainWindow(QtWidgets.QMainWindow):
         self.uic.cbx_dcs_2.set_dependent(self.uic.cbx_dcs_3)
 
         self.uic.btn_dcs.clicked.connect(self.handle_process_button)
-        self.uic.btn_dcs_gen.clicked.connect(self.handle_generate_button)
+        # self.uic.btn_dcs_gen.clicked.connect(self.handle_generate_button)
 
         self.uic.cbx_dcs_3.currentTextChanged.connect(self.load_process_listview)
 
@@ -49,10 +55,14 @@ class DCMainWindow(QtWidgets.QMainWindow):
         if dc_editor.exec_() == QtWidgets.QDialog.Accepted:
             fm = DirectoryFM(path=_global_.XML_DIRECTORY, dc=self.uic.cbx_dcs_1.currentText(),
                                 dc_group=self.uic.cbx_dcs_2.currentText(),  station_name=self.uic.cbx_dcs_3.currentText())
-            fm.add_station("STA000CAN0")
+            # fm.add_station("STA000CAN0")
+            fm.add_station_group("Test", ["STA000CAN0"])
 
             # reload stnlst.xml
             self.uic.cbx_dcs_3.reload()
+            self.uic.cbx_dcs_3.update_selection()
+            self.uic.cbx_dcs_2.reload()
+            self.uic.cbx_dcs_2.update_selection()
 
     def load_process_listview(self, val):
         prcss_loc = os.path.join(_global_.XML_DIRECTORY, self.uic.cbx_dcs_1.currentText(), self.uic.cbx_dcs_2.currentText(), self.uic.cbx_dcs_3.currentText())
@@ -78,27 +88,33 @@ class DCMainWindow(QtWidgets.QMainWindow):
             if sel_process == "ProcessList":
                 # re update the list view to add/remove from xml
                 self.load_process_listview(0)
-                self.generate_files(location)
+                self.generate_files()
         else:
             pass
 
         self.xml_module = None
 
-    def generate_files(self, location):
-        # generate process files based on the process list
-        generate_on_save = False
-        if generate_on_save:
+    def generate_files(self):
+        # load in process list
+        prcss_root = ET.parse(os.path.join(_global_.XML_DIRECTORY, self.uic.cbx_dcs_1.currentText(), self.uic.cbx_dcs_2.currentText(), self.uic.cbx_dcs_3.currentText(),  _global_.PRCSS_LST)).getroot()
+
+        # if archvr value is set to true then generate file
+        if prcss_root.findall("Archvr")[0].text == "True":
             # generate all selected processes from processlist.xml
+
             fm = ArchvrFM(path=_global_.XML_DIRECTORY, dc=self.uic.cbx_dcs_1.currentText(),
                           dc_group=self.uic.cbx_dcs_2.currentText(), station_name=self.uic.cbx_dcs_3.currentText())
 
-    def handle_generate_button(self):
-        # loop through process list
-        # if enbld == true, then we generate the corresponding xml files
-        sel_process = self.prc_list.get_selected()
-        if sel_process == "Archvr":
-            fm = ArchvrFM(path=_global_.XML_DIRECTORY, dc=self.uic.cbx_dcs_1.currentText(),
-                                dc_group=self.uic.cbx_dcs_2.currentText(),  station_name=self.uic.cbx_dcs_3.currentText())
+        if prcss_root.findall("Stn_R_Sync")[0].text == "True":
+            pass
+
+    # def handle_generate_button(self):
+    #     # loop through process list
+    #     # if enbld == true, then we generate the corresponding xml files
+    #     sel_process = self.prc_list.get_selected()
+    #     if sel_process == "Archvr":
+    #         fm = ArchvrFM(path=_global_.XML_DIRECTORY, dc=self.uic.cbx_dcs_1.currentText(),
+    #                             dc_group=self.uic.cbx_dcs_2.currentText(),  station_name=self.uic.cbx_dcs_3.currentText())
 
     def get_xml_module(self, process_name):
         # construct path
@@ -340,6 +356,29 @@ class XmlTreeWidget(QtWidgets.QTreeWidget):
     #         pass
     #     else:
     #         item.setFlags(item.flags() ^ Qt.ItemIsEditable)
+
+
+##
+#   This widget displays the data center/data center groups/stations, as well as allows the user to add/remove a group
+##
+class StationsTreeWidget(QtWidgets.QTreeWidget):
+
+    def __init__(self, parent=None):
+        super(StationsTreeWidget, self).__init__(parent=parent)
+
+    # todo : load all dcs/dc groups/stations
+    # add station function (dc,sta_grp,sta)
+
+    # display as tree, at last child add editable "ADD" button (Some QtObject!!)
+
+    # right click remove option? - at least add function to remove given depth (dc/dc_group/station)
+    # create confirmation menu?
+
+    # all changes will be stored in a data structure then committed to tree once confirmed!! (QTAccepted)
+
+    def loadXML(self):
+
+        pass
 
 
 class ProcessListView(QtWidgets.QListWidget):
