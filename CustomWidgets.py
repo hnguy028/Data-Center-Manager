@@ -51,8 +51,38 @@ class DCMainWindow(QtWidgets.QMainWindow):
         # init xml reference dialog
         self.xml_module = None
 
-    # if add station is clicked open the dc_editor dialog
+    # currently implemented with dc_add_menu.ui for proof of concept
     def load_dc_editor(self):
+        dc_editor = uic.loadUi(_global_.UI_DIRECTORY + "dc_add_menu.ui")
+        dc_editor.label.setText(dc_editor.label.text() + "\n(leave blank to add stations to " + self.uic.cbx_dcs_2.currentText() + ")")
+
+        # if user clicks ok
+        if dc_editor.exec_() == QtWidgets.QDialog.Accepted:
+            # create directory file manager
+            fm = DirectoryFM(path=_global_.XML_DIRECTORY, dc=self.uic.cbx_dcs_1.currentText(),
+                             dc_group=self.uic.cbx_dcs_2.currentText(),
+                             station_name=self.uic.cbx_dcs_3.currentText())
+
+            textbox1 = dc_editor.plainTextEdit
+            textbox2 = dc_editor.plainTextEdit_2
+
+            if textbox2.toPlainText():
+                stationList = textbox2.toPlainText().split(",")
+
+                if textbox1.toPlainText():
+                    # add new group and station - to current data center
+                    fm.add_station_group(textbox1.toPlainText(), stationList)
+                else:
+                    # add new stations - to current group
+                    for station_name in stationList:
+                        fm.add_station(station_name)
+
+                # send signal to dc combo box to propagate update
+                self.uic.cbx_dcs_1.update_dependent(self.uic.cbx_dcs_1.currentText())
+
+    # todo : alternative implementation with tree view
+    # if add station is clicked open the dc_editor dialog
+    def _load_dc_editor(self):
         dc_editor = uic.loadUi(_global_.UI_DIRECTORY + "dc_editor.ui")
 
         # if user clicks ok
