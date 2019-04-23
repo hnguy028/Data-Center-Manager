@@ -7,8 +7,4 @@
         	<Nm>NRC100CAN0</Nm>
         	<Enbld>True</Enbld>
         </Stn>
-        <Stn>
-        	<Nm>STJO00CAN0</Nm>
-        	<Enbld>True</Enbld>
-        </Stn>
 </StnLst>

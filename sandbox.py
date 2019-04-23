@@ -1,5 +1,5 @@
 ##
-#   sandbox.py
+#   sandbox.py - testing script, not called in the main application
 ##
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *

@@ -1,5 +1,5 @@
 ##
-#   CustomWidget.py - Package for custom gui objects
+#   CustomWidget.py - custom defined widget classes for gui
 ##
 import config as _global_
 import sys
@@ -9,12 +9,12 @@ from PyQt5 import QtWidgets, uic
 from FileManager import *
 
 
-# Top Level Window
+# Top Level Window - load in all gui objects, populate with respective information from xml files.
 class DCMainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super(DCMainWindow, self).__init__()
 
-        # reference to gui object on the main window
+        # load reference to gui object on the main window
         self.uic = uic.loadUi(_global_.UI_DIRECTORY + _global_.DC_SELECTION, self)
         self.show()
 
@@ -22,8 +22,8 @@ class DCMainWindow(QtWidgets.QMainWindow):
         self.setWindowTitle(_global_.APPLICATION_NAME)
         self.setWindowIcon(QIcon(_global_.WINDOW_ICON))
 
-        # load combo box (drop down menus) from xml
-        self.uic.cbx_dcs_1.set_default(_path=_global_.XML_DIRECTORY, _file_name=_global_.DC_MNGR)
+        # load combo box information (drop down menus) from xml files
+        self.uic.cbx_dcs_1.set_default(_path=_global_.XML_DIRECTORY, _dir="", _file_name=_global_.DC_MNGR)
         self.uic.cbx_dcs_1.update_selection()
 
         self.uic.cbx_dcs_2.set_default(_path=_global_.XML_DIRECTORY, _dir=self.uic.cbx_dcs_1.currentText(), _file_name=_global_.STN_GRPS)
@@ -36,6 +36,7 @@ class DCMainWindow(QtWidgets.QMainWindow):
         self.uic.cbx_dcs_1.set_dependent(self.uic.cbx_dcs_2)
         self.uic.cbx_dcs_2.set_dependent(self.uic.cbx_dcs_3)
 
+        # set event handlers
         self.uic.btn_dcs.clicked.connect(self.handle_process_button)
         # self.uic.btn_dcs_gen.clicked.connect(self.handle_generate_button)
 
@@ -45,26 +46,33 @@ class DCMainWindow(QtWidgets.QMainWindow):
 
         # load and populate xml process selection
         self.prc_list = self.uic.process_list_view
-        self.load_process_listview(0)
+        self.load_process_listview()
 
         # init xml reference dialog
         self.xml_module = None
 
+    # if add station is clicked open the dc_editor dialog
     def load_dc_editor(self):
         dc_editor = uic.loadUi(_global_.UI_DIRECTORY + "dc_editor.ui")
+
+        # if user clicks ok
         if dc_editor.exec_() == QtWidgets.QDialog.Accepted:
+            # create directory file manager
             fm = DirectoryFM(path=_global_.XML_DIRECTORY, dc=self.uic.cbx_dcs_1.currentText(),
                                 dc_group=self.uic.cbx_dcs_2.currentText(),  station_name=self.uic.cbx_dcs_3.currentText())
+
+            # add new stations - to current group
             # fm.add_station("STA000CAN0")
-            fm.add_station_group("Test", ["STA000CAN0"])
 
-            # reload stnlst.xml
-            self.uic.cbx_dcs_3.reload()
-            self.uic.cbx_dcs_3.update_selection()
-            self.uic.cbx_dcs_2.reload()
-            self.uic.cbx_dcs_2.update_selection()
+            # add new group and station - to current data center
+            # fm.add_station_group("Test", ["STA000CAN0"])
 
-    def load_process_listview(self, val):
+        # send signal to dc combo box to propagate update
+        self.uic.cbx_dcs_1.update_dependent(self.uic.cbx_dcs_1.currentText())
+
+    # load process list with respect to selected combo boxes
+    def load_process_listview(self):
+        # compose xml file path
         prcss_loc = os.path.join(_global_.XML_DIRECTORY, self.uic.cbx_dcs_1.currentText(), self.uic.cbx_dcs_2.currentText(), self.uic.cbx_dcs_3.currentText())
 
         self.prc_list.populate(prcss_loc)
@@ -85,15 +93,19 @@ class DCMainWindow(QtWidgets.QMainWindow):
         elif self.xml_module.exec_() == QtWidgets.QDialog.Accepted:
             self.xml_module.write_to_xml_root()
 
+            # if process list was edited then update process list view
             if sel_process == "ProcessList":
                 # re update the list view to add/remove from xml
-                self.load_process_listview(0)
+                self.load_process_listview()
+
+                # generate any files that were checked
                 self.generate_files()
         else:
             pass
 
         self.xml_module = None
 
+    # handle generation of xml files
     def generate_files(self):
         # load in process list
         prcss_root = ET.parse(os.path.join(_global_.XML_DIRECTORY, self.uic.cbx_dcs_1.currentText(), self.uic.cbx_dcs_2.currentText(), self.uic.cbx_dcs_3.currentText(),  _global_.PRCSS_LST)).getroot()
@@ -121,10 +133,7 @@ class DCMainWindow(QtWidgets.QMainWindow):
         location = os.path.join(_global_.XML_DIRECTORY, self.uic.cbx_dcs_1.currentText(),
                                  self.uic.cbx_dcs_2.currentText(), self.uic.cbx_dcs_3.currentText())
 
-        # load required config xml files
-        # DfltPrmtrs.xml
-        # list1/list2/NTRLP_Cnfg.xml
-
+        # load xml file
         if process_name == "StationInfo":
             return XmlEditor(parent=self, _path=location,
                              _file_name=self.uic.cbx_dcs_3.currentText() + "_StationInfo.xml")
@@ -138,6 +147,7 @@ class DCMainWindow(QtWidgets.QMainWindow):
             print("Not Implemented")
 
 
+# Combo boxes that will update its dependent when changed
 class DependentComboBox(QtWidgets.QComboBox):
 
     path = None
@@ -167,11 +177,13 @@ class DependentComboBox(QtWidgets.QComboBox):
         self.currentTextChanged.connect(self.update_dependent)
 
     def update_dependent(self, _name):
-        self.dependent.update_selection(_name)
+        self.dependent.update_selection(os.path.join(self.dir, _name))
 
     def load_xml(self, _dir):
         if not os.path.isfile(os.path.join(self.path, _dir, self.file)):
             return
+
+        self.dir = _dir
 
         self.file_path = os.path.join(self.path, _dir, self.file)
         self.xml_tree = ET.parse(self.file_path)
@@ -182,20 +194,24 @@ class DependentComboBox(QtWidgets.QComboBox):
         self.xml_tree = ET.parse(self.file_path)
         self.xml_root = self.xml_tree.getroot()
 
-    def update_selection(self, _selection=None):
-        # load xml file form selection
-        if _selection:
-            self.load_xml(_selection)
+    def update_selection(self, _selection=""):
+        self.blockSignals(True)
 
-        # clear selection
+        # load xml file form selection
+        _selection = _selection if _selection else self.dir
+        self.load_xml(_selection)
+
+        # clear list
         self.clear()
+
+        self.blockSignals(False)
 
         # load category into dropdown list
         for child in self.xml_root:
             if not child.find('Enbld') or child.find('Enbld').text.lower() in ["true", "t"]:
                 self.addItem(child.find('Nm').text)
 
-        # set default to index 0
+        # set selected choice to first item
         self.setCurrentIndex(0)
 
         # update dependent if not None
@@ -203,6 +219,7 @@ class DependentComboBox(QtWidgets.QComboBox):
             self.dependent.update_selection(os.path.join(_selection, self.currentText()))
 
 
+# XmlEditor - modifies the xml file from changes in XmlTreeWidget
 class XmlEditor(QtWidgets.QDialog):
 
     path = None
@@ -223,7 +240,7 @@ class XmlEditor(QtWidgets.QDialog):
             self.xml_tree = ET.parse(self.file_path)
             self.xml_root = self.xml_tree.getroot()
 
-        # load ui
+        # load ui object references
         self.uic = uic.loadUi(_global_.UI_DIRECTORY + _global_.DC_XML_TREE, self)
 
         # load tree with xml data
@@ -231,9 +248,7 @@ class XmlEditor(QtWidgets.QDialog):
         self.uic.treeWidget.load()
         self.uic.treeWidget.show()
 
-        # handle accept event
-        # self.uic.buttonBox.accepted.connect(self.write_to_xml_root)
-
+    # write changes from the xml object in memory to file
     def write_to_xml_root(self, path=None, file_name=None):
         if self.xml_root is None:
             print("No xml loaded")
@@ -241,20 +256,23 @@ class XmlEditor(QtWidgets.QDialog):
 
         # equivalent to self.xml_root
         root = self.uic.treeWidget.invisibleRootItem().child(0)
+
+        # recursive loop over tree to update changes DFS stylz
         self._write_to_xml_root(root, self.xml_root)
 
+        # get file path
         dl_path = path if path else self.path
         dl_file_name = file_name if file_name else self.file
 
         dl_loc = os.path.join(dl_path, dl_file_name)
 
-        # create backup
+        # copy current xml file to create backup
         shutil.copy(dl_loc, dl_loc + ".bckup")
 
         # write to file
         self.xml_tree.write(dl_loc)
 
-    # recursive step
+    # recursive step - root=tree widget node, _xml_root=xml etree node
     def _write_to_xml_root(self, root, _xml_root):
         if _xml_root.text and root.text(0) != _xml_root.tag:
             print("Error - _write_to_xml_root")
@@ -266,24 +284,31 @@ class XmlEditor(QtWidgets.QDialog):
             for i in range(count):
                 self._write_to_xml_root(root.child(i), list(_xml_root)[i])
         else:
-            # At leaf node
+            # Now at leaf node
             text_col = 1
 
+            # check if there is a text input at the column index
             if root.text(text_col):
-                # there is a text input at the column index
                 if "constant" in _xml_root.attrib and _xml_root.attrib["constant"] == "True":
                     pass
                 else:
                     if _xml_root.text and root.text(text_col).lower() != _xml_root.text.lower():
                         _xml_root.text = str(root.text(text_col).lower())
 
-            chk_bx = root.checkState(1)
-            xml_val = str(_xml_root.text).lower() in ["true", "t"]
-            if chk_bx != xml_val:
-                _xml_root.text = str(bool(chk_bx))
-            # print node tag, text at column index if any, then the check state
-            # print(root.text(0), root.text(1), root.checkState(1))
+            # else we assume its a checkbox
 
+            # # get check state from the dialog window
+            # chk_bx = root.checkState(1)
+            #
+            # # get check state from xml file
+            # xml_val = str(_xml_root.text).lower() in ["true", "t"]
+            #
+            # if chk_bx != xml_val:
+            #     # update xml node
+            #     _xml_root.text = str(bool(chk_bx))
+            _xml_root.text = str(bool(root.checkState(1)))
+
+    # reload from xml file
     def reload(self):
         if os.path.isfile(self.file_path):
             self.xml_tree = ET.parse(self.file_path)
@@ -292,13 +317,13 @@ class XmlEditor(QtWidgets.QDialog):
         self.load(self.xml_root)
 
 
+# XmlTreeWidget - loads and displays selected xml file
 class XmlTreeWidget(QtWidgets.QTreeWidget):
 
     xml_root = None
 
     def __init__(self, parent=None):
         super(XmlTreeWidget, self).__init__(parent=parent)
-        # self.doubleClicked.connect(self.test)
 
     def set_default(self, _root=None):
         self.xml_root = _root
@@ -310,6 +335,7 @@ class XmlTreeWidget(QtWidgets.QTreeWidget):
         for i in range(len(_headers)):
             self.headerItem().setText(i, _headers[i])
 
+    # load view from tree root object
     def load(self, new_root=None):
         if new_root:
             self.xml_root = new_root
@@ -319,6 +345,8 @@ class XmlTreeWidget(QtWidgets.QTreeWidget):
             return
 
         self._load(self.xml_root, self)
+
+        # set default expanded view
         self.expandAll()
         self.resizeColumnToContents(1)
 
@@ -329,15 +357,18 @@ class XmlTreeWidget(QtWidgets.QTreeWidget):
         curr_node = QtWidgets.QTreeWidgetItem(_tree_root)
         curr_node.setText(0, _xml_node.tag)
         curr_node.setFlags(curr_node.flags())
-        # todo : make column index 0 uneditable
+
+        # todo : make column index 0 (tags in the xml tree) immutable
 
         if len(_xml_node) > 0:
             for child in _xml_node:
                 self._load(child, curr_node)
         else:
-            # no children, so it must be an input
+            # at leaf node, so it must be an input
 
             in_col_index = 1
+
+            # if the value is true/false, display check box
             if _xml_node.text and _xml_node.text.lower() in ["true", "false"]:
                 # first param is the column index where the check box exists
                 curr_node.setCheckState(in_col_index, Qt.Checked if _xml_node.text.lower() == "true" else Qt.Unchecked)
@@ -348,8 +379,8 @@ class XmlTreeWidget(QtWidgets.QTreeWidget):
                     # set condition to be editable
                     curr_node.setFlags(curr_node.flags() | Qt.ItemIsEditable)
 
-    # def test(self, index):
-    #     # add extra hidden colu,m which will determine if data can be edited?
+    # def determineEditableText(self, index):
+    #     # add extra hidden column which will determine if data can be edited?
     #     item = self.currentItem()
     #     print(index.column())
     #     if index.column() >= 1 and (item.flags() and Qt.ItemIsEditable):
@@ -377,10 +408,10 @@ class StationsTreeWidget(QtWidgets.QTreeWidget):
     # all changes will be stored in a data structure then committed to tree once confirmed!! (QTAccepted)
 
     def loadXML(self):
-
         pass
 
 
+# ProcessListView - displays list of processes to be selected
 class ProcessListView(QtWidgets.QListWidget):
 
     def __init__(self, parent=None):
@@ -389,9 +420,10 @@ class ProcessListView(QtWidgets.QListWidget):
         # set single selection mode
         self.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
 
-        self.itemSelectionChanged.connect(self.test)
+        # connect event trigger
+        self.itemSelectionChanged.connect(self.print)
 
-    def test(self):
+    def print(self):
         print(self.get_selected())
 
     # todo : check if file exits, if not write option in red ?
@@ -399,6 +431,7 @@ class ProcessListView(QtWidgets.QListWidget):
         # block any actions that are called when list is updated
         self.blockSignals(True)
 
+        # clear list of processes
         self.clearSelection()
         self.clear()
 
@@ -408,7 +441,7 @@ class ProcessListView(QtWidgets.QListWidget):
         # load processes from prcsslist.xml
         prcss_file = os.path.join(process_loc, _global_.PRCSS_LST)
 
-        # iterate through prcsslst xml, if enbld == True, add to list
+        # iterate through prcsslst xml and if enbld == True then add to list
         if os.path.isfile(prcss_file):
             xml_root = ET.parse(prcss_file).getroot()
 
@@ -424,7 +457,6 @@ class ProcessListView(QtWidgets.QListWidget):
                             item.setFlags(Qt.NoItemFlags)
 
                 self.addItem(item)
-
 
         # re enable signals
         self.blockSignals(False)
